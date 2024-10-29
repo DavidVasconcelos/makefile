@@ -1,0 +1,4 @@
+g++ main.cc -o main
+make or make build 
+make execute
+make clean
