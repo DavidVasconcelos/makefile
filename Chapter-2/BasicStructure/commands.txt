@@ -1,0 +1,6 @@
+g++ -c main.cc -o main.o
+g++ -c my_lib.cc -o my_lib.o
+-- 
+make or make build 
+make execute
+make clean

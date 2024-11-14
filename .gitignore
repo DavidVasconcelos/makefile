@@ -107,3 +107,6 @@ loguru/
 [Rr]eleases/
 x64/
 x86/
+
+## Macos
+.DS_Store
