@@ -1,0 +1,11 @@
+g++ -c main.cc -o main.o
+g++ -c my_lib.cc -o my_lib.o
+-- 
+make or make build 
+make CXX_STANDARD=c++14
+make DEBUG=0
+make execute
+make clean
+
+
+*https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
