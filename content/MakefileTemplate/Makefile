@@ -11,12 +11,24 @@
 # CPPFLAGS: Extra flags to give to the C preprocessor
 # LDFLAGS: Extra flags to give to the linker
 
+ENABLE_WARNINGS ?= 1
+WARNINGS_AS_ERRORS ?= 1
+
 INCLUDE_DIR = include
 SOURCE_DIR = src
 BUILD_DIR = build
 
 CXX_STANDARD = c++17
+
+ifeq ($(ENABLE_WARNINGS), 1)
 CXX_WARNINGS = -Wall -Wextra -Wpedantic
+else
+CXX_WARNINGS = 
+endif
+
+ifeq ($(WARNINGS_AS_ERRORS), 1)
+CXX_WARNINGS += -Werror
+endif
 
 CXX = g++
 CXXFLAGS = $(CXX_WARNINGS) -std=$(CXX_STANDARD)
@@ -45,18 +57,15 @@ CXX_OBJECTS = $(patsubst $(SOURCE_DIR)/%.cc, $(BUILD_DIR)/%.o, $(CXX_SOURCES))
 ##############
 ## TARGETS ##
 ##############
+all: create build
+
 create:
-	mkdir -p $(BUILD_DIR)
+    # @ to supress terminal output
+	@mkdir -p $(BUILD_DIR)
 
 build: create $(CXX_OBJECTS)
 	$(CXX_COMPILER_CALL) $(CXX_OBJECTS) $(LDFLAGS) -o $(BUILD_DIR)/$(EXECUTABLE_NAME)
 	
-main.o:
-	$(CXX_COMPILER_CALL) -c main.cc -o main.o
-
-my_lib.o:
-	$(CXX_COMPILER_CALL) -c my_lib.cc -o my_lib.o
-
 execute:
 	./$(BUILD_DIR)/$(EXECUTABLE_NAME)
 
@@ -76,3 +85,9 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cc
 # Example
 #main.o: main.cc
 #	$(CXX_COMPILER_CALL) -c main.cc -o main.o
+
+
+###########
+## PHONY ##
+###########
+.PHONY: create build execute clean
